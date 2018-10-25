@@ -1,0 +1,46 @@
+{
+    "builders": [
+        {
+            "type": "vmware-iso",
+            "vm_name": "{{user `vm_name`}}-vmware-{{user `version`}}",
+            "iso_url": "{{user `iso_file`}}",
+            "iso_checksum": "{{user `iso_checksum`}}",
+            "iso_checksum_type": "{{user `type`}}",
+            "headless": "{{user `headless`}}",
+            "boot_wait": "20s",
+            "guest_os_type": "otherlinux-64",
+            "disk_size": "{{user `disk_size`}}",
+            "http_directory": "http",
+            "boot_command": [
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter>"
+            ],
+            "vmx_data": {
+                "memsize": "{{user `memsize`}}",
+                "numvcpus": "{{user `numvcpus`}}"
+            },
+            "ssh_username": "{{user `ssh_username`}}",
+            "ssh_password": "{{user `ssh_password`}}",
+            "ssh_wait_timeout": "40m",
+            "shutdown_command": "echo '{{user `ssh_password`}}' |   sudo -S sh -c 'shutdown -P +1 && passwd -e {{user `ssh_username`}}'"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": "{{user `scripts`}}",
+            "environment_vars": [
+                "USERNAME={{user `default_username`}}",
+                "PASSWORD={{user `default_password`}}"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "inline": [
+                "rm -f {{user `vm_name`}}-vmware-{{user `version`}}.ova",
+                "/usr/lib/vmware-ovftool/ovftool --shaAlgorithm=SHA1 output-vmware-iso/{{user `vm_name`}}-vmware-{{user `version`}}.vmx output-vmware-iso/{{user `vm_name`}}-vmware-{{user `version`}}.ova"
+            ],
+            "type": "shell-local"
+        }
+    ]
+}
