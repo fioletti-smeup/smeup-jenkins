@@ -13,5 +13,5 @@
     "disk_size": "8192",
     "memsize": "1024",
     "numvcpus": "1",
-    "scripts": "setup.sh,docker.sh,jenkins.sh,salt.sh,cleanup.sh"
+    "scripts": "setup.sh,git-maven.sh,cleanup.sh"
 }

@@ -3,9 +3,9 @@
         {
             "type": "vmware-iso",
             "vm_name": "{{user `vm_name`}}-vmware-{{user `version`}}",
-            "iso_url": "{{user `iso_file`}}",
+            "iso_url": "{{user `iso_url`}}",
             "iso_checksum": "{{user `iso_checksum`}}",
-            "iso_checksum_type": "{{user `type`}}",
+            "iso_checksum_type": "{{user `iso_checksum_type`}}",
             "headless": "{{user `headless`}}",
             "boot_wait": "20s",
             "guest_os_type": "otherlinux-64",
@@ -14,10 +14,6 @@
             "boot_command": [
                 "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter>"
             ],
-            "vmx_data": {
-                "memsize": "{{user `memsize`}}",
-                "numvcpus": "{{user `numvcpus`}}"
-            },
             "ssh_username": "{{user `ssh_username`}}",
             "ssh_password": "{{user `ssh_password`}}",
             "ssh_wait_timeout": "40m",
